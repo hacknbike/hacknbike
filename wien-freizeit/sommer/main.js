@@ -67,7 +67,7 @@ kartenLayer.geolandbasemap.addTo(karte);
 
 karte.addControl(new L.Control.Fullscreen());
 
-karte.setView([48.208333, 16.373056], 10);
+karte.setView([48.208333, 16.373056], 11);
 
 // die Implementierung der Karte startet hier
 
