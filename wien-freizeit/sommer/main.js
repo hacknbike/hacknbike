@@ -52,30 +52,44 @@ const kartenLayer = {
 const layerControl = L.control.layers({
     "Geoland Basemap": kartenLayer.geolandbasemap,
     "Geoland Basemap Grau": kartenLayer.bmapgrau,
-    "Geoland Basemap Overlay": kartenLayer.bmapoverlay,
+   // "Geoland Basemap Overlay": kartenLayer.bmapoverlay,
     "Geoland Basemap High DPI": kartenLayer.bmaphidpi,
     "Geoland Basemap Orthofoto": kartenLayer.bmaporthofoto30cm,
     "Geoland Basemap Gelände": kartenLayer.bmapgelaende,
-    "Geoland Basemap Oberfläche": kartenLayer.bmapoberflaeche,
+    //"Geoland Basemap Oberfläche": kartenLayer.bmapoberflaeche,
     "OpenStreetMap": kartenLayer.osm,
-    "Stamen Toner": kartenLayer.stamen_toner,
+    //"Stamen Toner": kartenLayer.stamen_toner,
     "Stamen Terrain": kartenLayer.stamen_terrain,
-    "Stamen Watercolor": kartenLayer.stamen_watercolor
+    //"Stamen Watercolor": kartenLayer.stamen_watercolor
 }).addTo(karte);
 
-kartenLayer.bmapgrau.addTo(karte);
+kartenLayer.geolandbasemap.addTo(karte);
 
 karte.addControl(new L.Control.Fullscreen());
 
-karte.setView([48.208333, 16.373056], 12);
+karte.setView([48.208333, 16.373056], 11);
 
 // die Implementierung der Karte startet hier
 
-const url = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SPAZIERPUNKTOGD &srsName=EPSG:4326&outputFormat=json';
+
+
+//Maßstab einfügen
+const scale = L.control.scale({
+    imperial: false,
+    metric: true
+
+});
+karte.addControl(scale);
+
+
+
+
+// Burgen und Schlösser
+const url = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BURGSCHLOSSOGD&srsName=EPSG:4326&outputFormat=json';
 
 function makeMarker(feature, latlng) {
     const fotoIcon = L.icon({
-        iconUrl: 'http://www.data.wien.gv.at/icons/sehenswuerdigogd.svg', //anderer Marker
+        iconUrl: 'http://www.data.wien.gv.at/icons/burgschlossogdsichtbar.svg', //anderer Marker
         iconSize: [16, 16]
     });
     const sightMarker = L.marker(latlng, {
@@ -83,9 +97,7 @@ function makeMarker(feature, latlng) {
     });
     sightMarker.bindPopup(`
         <h3>${feature.properties.NAME}</h3>
-        <p>${feature.properties.BEMERKUNG}</p>
-        <hr>
-        <footer><a target="blank" href="${feature.properties.WEITERE_INF}">Weblink</a></footer>
+        <p>${feature.properties.BESCHREIBUNG}</p>
         `); //Name, Beschreibung, Weblink (neuer Tab)
     return sightMarker;
 }
@@ -101,7 +113,7 @@ async function loadSights(url) {
     //Clustergruppe
     clusterGruppe.addLayer(geoJson);
     karte.addLayer(clusterGruppe);
-    layerControl.addOverlay(clusterGruppe, "Sehenswürdigkeit");
+    layerControl.addOverlay(clusterGruppe, "Burgen und Schlösser");
 
     //Suchfeld einfügen
     const suchFeld = new L.Control.Search({
@@ -115,23 +127,89 @@ async function loadSights(url) {
 
 loadSights(url);
 
-//Maßstab einfügen
-const scale = L.control.scale({
-    imperial: false,
-    metric: true
+// Badestellen
+const baden = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BADESTELLENOGD&srsName=EPSG:4326&outputFormat=json';
 
-});
-karte.addControl(scale);
+function makeBadenMarker(feature, latlng) {
+    const fotoBadenIcon = L.icon({
+        iconUrl: 'http://www.data.wien.gv.at/icons/badestelle.svg', //anderer Marker
+        iconSize: [16, 16]
+    });
+    const badenMarker = L.marker(latlng, {
+        icon: fotoBadenIcon
+    });
+    badenMarker.bindPopup(`
+        <h3>${feature.properties.BEZEICHNUNG}</h3>
+        <hr>
+        <footer><a target="blank" href="${feature.properties.WEITERE_INFO}">Weblink Wasserqualität</a></footer>
+        `); //Name, Beschreibung, Weblink (neuer Tab)
+    return badenMarker;
+}
 
 
-//Spazierwege hinzufügen
+async function loadBaden(baden) {
+    const clusterBadenGruppe = L.markerClusterGroup();
+    const badenresponse = await fetch(baden);
+    const badenData = await badenresponse.json();
+    const geoJson = L.geoJson(badenData, {
+        pointToLayer: makeBadenMarker
+    });
+
+    //Clustergruppe
+    clusterBadenGruppe.addLayer(geoJson);
+    karte.addLayer(clusterBadenGruppe);
+    layerControl.addOverlay(clusterBadenGruppe, "Badestellen");
+}
+
+loadBaden(baden);
+
+
+// Schwimmbäder
+const schwimmen = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SCHWIMMBADOGD&srsName=EPSG:4326&outputFormat=json';
+
+function makeSchwimmen(feature, latlng) {
+    const schwimmenIcon = L.icon({
+        iconUrl: 'http://www.data.wien.gv.at/icons/schwimmbad.svg', //anderer Marker
+        iconSize: [16, 16]
+    });
+    const schwimmenMarker = L.marker(latlng, {
+        icon: schwimmenIcon
+    });
+    schwimmenMarker.bindPopup(`
+        <h3>${feature.properties.NAME}</h3>
+        <p>${feature.properties.ADRESSE}</p>
+        <hr>
+        <footer><a target="blank" href="${feature.properties.WEBLINK1}">Weblink</a></footer> 
+        `); //Name, Beschreibung, Weblink (neuer Tab)
+    return schwimmenMarker;
+}
+
+async function loadSchwimmen(schwimmen) {
+    const clusterGruppeSchwimmen = L.markerClusterGroup();
+    const responseSchwimmen = await fetch(schwimmen);
+    const schwimmenData = await responseSchwimmen.json();
+    const geoJson = L.geoJson(schwimmenData, {
+        pointToLayer: makeSchwimmen
+    });
+
+    //Clustergruppe
+    clusterGruppeSchwimmen.addLayer(geoJson);
+    karte.addLayer(clusterGruppeSchwimmen);
+    layerControl.addOverlay(clusterGruppeSchwimmen, "Schwimmbäder");
+}
+
+loadSchwimmen(schwimmen);
+
+
+//Wanderwege hinzufügen
 const wege = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:WANDERWEGEOGD&srsName=EPSG:4326&outputFormat=json';
 
-function linienPopup(feature, layer) { //Wege Popup (nur Name möglich)
+function wandernPopup(feature, layer) { 
     const popup = `
-        <h3>${feature.properties.NAME}</h3>
+        <a target="blank" href="${feature.properties.URL_INFO}">Weblink</a>
         `;
     layer.bindPopup(popup);
+    console.log("test");
 }
 
 async function loadWege(wegeURL) {
@@ -143,58 +221,78 @@ async function loadWege(wegeURL) {
                 color: "yellow"
             };
         },
-        onEachFeature: linienPopup
+        onEachFeature: wandernPopup
     });
 
     karte.addLayer(wegeJson);
-    layerControl.addOverlay(wegeJson, "Spazierwege");
+    layerControl.addOverlay(wegeJson, "Stadtwanderwege");
 }
 loadWege(wege);
 
 
+
+//Themenradwege hinzufügen
+const routen = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:THEMENRADWEGOGD&srsName=EPSG:4326&outputFormat=json';
+
+function linienPopup(feature, layer) { 
+    const popup = `
+        <h3>${feature.properties.BEZEICHNUNG}</h3>
+        `;
+    layer.bindPopup(popup);
+}
+
+async function loadRouten(routenURL) {
+    const antwort = await fetch(routenURL);
+    const routenData = await antwort.json();
+    const routenJson = L.geoJson(routenData, {
+        style: function () { //Farbe der Fahrradrouten
+            return {
+                color: "blue"
+            };
+        },
+        onEachFeature: linienPopup
+    });
+
+    karte.addLayer(routenJson);
+    layerControl.addOverlay(routenJson, "Themenradwege");
+}
+loadRouten(routen);
+
+
 //WLAN Standorte einfügen
 
-const wifi = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:WLANWIENATOGD&srsName=EPSG:4326&outputFormat=json';
+// const wifi = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:WLANWIENATOGD&srsName=EPSG:4326&outputFormat=json';
 
-function makeWifi(feature, latlng) {
-    const wifiIcon = L.icon({
-        iconUrl: 'http://www.data.wien.gv.at/icons/wlanwienatogd.svg', //anderer Marker
-        iconSize: [16, 16]
-    });
-    const wifiMarker = L.marker(latlng, {
-        icon: wifiIcon
-    });
-    wifiMarker.bindPopup(`
-        <h3>${feature.properties.NAME}</h3>
-        <p>${feature.properties.ADRESSE}</p>        
-        `); //Name, Beschreibung, ohne Weblink (neuer Tab)
-    return wifiMarker;
-}
+// function makeWifi(feature, latlng) {
+//     const wifiIcon = L.icon({
+//         iconUrl: 'http://www.data.wien.gv.at/icons/wlanwienatogd.svg', //anderer Marker
+//         iconSize: [16, 16]
+//     });
+//     const wifiMarker = L.marker(latlng, {
+//         icon: wifiIcon
+//     });
+//     wifiMarker.bindPopup(`
+//         <h3>${feature.properties.NAME}</h3>
+//         <p>${feature.properties.ADRESSE}</p>        
+//         `); //Name, Beschreibung, ohne Weblink (neuer Tab)
+//     return wifiMarker;
+// }
 
-async function loadWifi(wifi) {
-    const clusterGruppewifi = L.markerClusterGroup();
-    const responsewifi = await fetch(wifi);
-    const wifiData = await responsewifi.json();
-    const geoJson = L.geoJson(wifiData, {
-        pointToLayer: makeWifi
-    });
+// async function loadWifi(wifi) {
+//     const clusterGruppewifi = L.markerClusterGroup();
+//     const responsewifi = await fetch(wifi);
+//     const wifiData = await responsewifi.json();
+//     const geoJson = L.geoJson(wifiData, {
+//         pointToLayer: makeWifi
+//     });
 
-    //Clustergruppe
-    clusterGruppewifi.addLayer(geoJson);
-    karte.addLayer(clusterGruppewifi);
-    layerControl.addOverlay(clusterGruppewifi, "WLAN-Standorte");
-}
-
-//Suchfeld Wifi
-    // const suchFeldwifi = new L.Control.Search({
-    //     layer: clusterGruppewifi,
-    //     propertyName: "NAME",
-    //     zoom: 17,
-    //     initial: false,
-    // });
-    // karte.addControl(suchFeldwifi);
+//     //Clustergruppe
+//     clusterGruppewifi.addLayer(geoJson);
+//     karte.addLayer(clusterGruppewifi);
+//     layerControl.addOverlay(clusterGruppewifi, "WLAN-Standorte");
+// }
 
 
-loadWifi(wifi);
+// loadWifi(wifi);
 
 
