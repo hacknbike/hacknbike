@@ -6,8 +6,9 @@ body {
 
 header {
     text-align: center;
-    background-image: url("images/wien.jpg");
-    background-position: 0 100%;
+    background-image: url("images/vienna.jpg");
+    background-position: 0 50%;
+    font-size: 3em;
 }
 
 
