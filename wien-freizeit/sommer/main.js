@@ -141,7 +141,7 @@ function makeBadenMarker(feature, latlng) {
     badenMarker.bindPopup(`
         <h3>${feature.properties.BEZEICHNUNG}</h3>
         <hr>
-        <footer><a target="blank" href="${feature.properties.WEITERE_INFO}">Weblink</a></footer>
+        <footer><a target="blank" href="${feature.properties.WEITERE_INFO}">Weblink Wasserqualität</a></footer>
         `); //Name, Beschreibung, Weblink (neuer Tab)
     return badenMarker;
 }
@@ -204,11 +204,12 @@ loadSchwimmen(schwimmen);
 //Wanderwege hinzufügen
 const wege = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:WANDERWEGEOGD&srsName=EPSG:4326&outputFormat=json';
 
-function linienPopup(feature, layer) { //Wege Popup (nur Name möglich)
+function wandernPopup(feature, layer) { 
     const popup = `
-        <a target="blank" href="${features.properties.URL_INFO}">Weblink</a>
+        <a target="blank" href="${feature.properties.URL_INFO}">Weblink</a>
         `;
     layer.bindPopup(popup);
+    console.log("test");
 }
 
 async function loadWege(wegeURL) {
@@ -220,7 +221,7 @@ async function loadWege(wegeURL) {
                 color: "yellow"
             };
         },
-        onEachFeature: linienPopup
+        onEachFeature: wandernPopup
     });
 
     karte.addLayer(wegeJson);
@@ -235,7 +236,7 @@ const routen = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature
 
 function linienPopup(feature, layer) { 
     const popup = `
-        <footer><a target="blank" href="${feature.properties.BEZEICHNUNG}">Weblink</a></footer>
+        <h3>${feature.properties.BEZEICHNUNG}</h3>
         `;
     layer.bindPopup(popup);
 }
