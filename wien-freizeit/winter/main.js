@@ -67,7 +67,7 @@ kartenLayer.bmapgrau.addTo(karte);
 
 karte.addControl(new L.Control.Fullscreen());
 
-karte.setView([48.208333, 16.373056], 12);
+karte.setView([48.208333, 16.373056], 11);
 
 // die Implementierung der Karte startet hier
 //Adventmaerkte hinzugefügt
@@ -159,6 +159,7 @@ loadWege(wege);
 //Museen und Sammlungen Standorte einfügen
 
 const museen = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:MUSEUMOGD&srsName=EPSG:4326&outputFormat=json';
+
 function makemuseen(feature, latlng) {
     const museenIcon = L.icon({
         iconUrl: 'http://www.data.wien.gv.at/icons/museum.png', //anderer Marker
@@ -188,20 +189,39 @@ async function loadmuseen(museen) {
 
     //Clustergruppe
     clusterGruppemuseen.addLayer(geoJson);
-    karte.addLayer(clusterGruppemuseen);
+    karte.addLayer(clusterGruppemuseen); //Kartenlayer wird in diesme Moment hinzugefügt
     layerControl.addOverlay(clusterGruppemuseen, "Museen und Sammlungen");
-}
 
+    //Suchfeld einfügen
+    function newsearch () {
+    if (karte.hasLayer(clusterGruppemuseen)) {
+        const suchFeldmuseen = new L.Control.Search({
+            layer: clusterGruppemuseen,
+            propertyName: "NAME",
+            zoom: 17,
+            initial: false,
+        });karte.addControl(suchFeldmuseen);
+    } else {};
+}
+//If Abfrage functioniert - Ladet aber am Anfang
+// -->
+//on click
+//??on change (overlay) ??? function
+//refresh on Overlay change
+
+};
+
+onclick (reload.fubction.newsearch); //haha nice try
+
+//console.log(L.control.layers.)
 //Suchfeld Wifi
-    // const suchFeldwifi = new L.Control.Search({
-    //     layer: clusterGruppewifi,
-    //     propertyName: "NAME",
-    //     zoom: 17,
-    //     initial: false,
-    // });
-    // karte.addControl(suchFeldwifi);
+// const suchFeldwifi = new L.Control.Search({
+//     layer: clusterGruppewifi,
+//     propertyName: "NAME",
+//     zoom: 17,
+//     initial: false,
+// });
+// karte.addControl(suchFeldwifi);
 
 
 loadmuseen(museen);
-
-
