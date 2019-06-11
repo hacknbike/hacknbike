@@ -83,12 +83,9 @@ function makeMarker(feature, latlng) {
     });
     advMarker.bindPopup(`
         <h3>${feature.properties.BEZEICHNUNG}</h3>
-        <p>Adresse:</p>
-        <p>${feature.properties.ADRESSE}</p>
-        <p>Geöffnet von-bis:</p>
-        <p>${feature.properties.DATUM}</p>
-        <p>Öffnungszeiten:</p>
-        <p>${feature.properties.OEFFNUNGSZEIT}</p>
+        <p>Adresse: ${feature.properties.ADRESSE}</p>
+        <p>Geöffnet von-bis: ${feature.properties.DATUM}</p>
+        <p>Öffnungszeiten: ${feature.properties.OEFFNUNGSZEIT}</p>
         <hr>
         <footer><a target="blank" href="${feature.properties.WEBLINK1}">Weblink</a></footer>
         `); //Name, Beschreibung, Weblink (neuer Tab)
@@ -129,12 +126,14 @@ const scale = L.control.scale({
 karte.addControl(scale);
 
 
-//Spazierwege hinzufügen
-const wege = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:WANDERWEGEOGD&srsName=EPSG:4326&outputFormat=json';
+//Silvesterpfad hinzufügen
+const wege = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SILVESPFADLINOGD&srsName=EPSG:4326&outputFormat=json';
 
 function linienPopup(feature, layer) { //Wege Popup (nur Name möglich)
     const popup = `
-        <h3>${feature.properties.NAME}</h3>
+        <h3>Silvesterpfad</h3>
+        <hr>
+        <footer><a target="blank" href="${feature.properties.WEBLINK1}">Weblink</a></footer>
         `;
     layer.bindPopup(popup);
 }
@@ -152,42 +151,45 @@ async function loadWege(wegeURL) {
     });
 
     karte.addLayer(wegeJson);
-    layerControl.addOverlay(wegeJson, "Spazierwege");
+    layerControl.addOverlay(wegeJson, "Silvesterpfad");
 }
 loadWege(wege);
 
 
-//WLAN Standorte einfügen
-/*
-const wifi = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:WLANWIENATOGD&srsName=EPSG:4326&outputFormat=json';
+//Museen und Sammlungen Standorte einfügen
 
-function makeWifi(feature, latlng) {
-    const wifiIcon = L.icon({
-        iconUrl: 'http://www.data.wien.gv.at/icons/wlanwienatogd.svg', //anderer Marker
+const museen = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:MUSEUMOGD&srsName=EPSG:4326&outputFormat=json';
+function makemuseen(feature, latlng) {
+    const museenIcon = L.icon({
+        iconUrl: 'http://www.data.wien.gv.at/icons/museum.png', //anderer Marker
         iconSize: [16, 16]
     });
-    const wifiMarker = L.marker(latlng, {
-        icon: wifiIcon
+    const museenMarker = L.marker(latlng, {
+        icon: museenIcon
     });
-    wifiMarker.bindPopup(`
-        <h3>${feature.properties.NAME}</h3>
-        <p>${feature.properties.ADRESSE}</p>        
-        `); //Name, Beschreibung, ohne Weblink (neuer Tab)
-    return wifiMarker;
+    museenMarker.bindPopup(`
+    <h3>${feature.properties.NAME}</h3>
+    <p>Bezirk: ${feature.properties.BEZIRK}</p>
+    <p>Adresse: ${feature.properties.ADRESSE}</p>
+    
+    <hr>
+    <footer><a target="blank" href="${feature.properties.WEITERE_INF}">Weblink</a></footer>
+    `);
+    return museenMarker;
 }
 
-async function loadWifi(wifi) {
-    const clusterGruppewifi = L.markerClusterGroup();
-    const responsewifi = await fetch(wifi);
-    const wifiData = await responsewifi.json();
-    const geoJson = L.geoJson(wifiData, {
-        pointToLayer: makeWifi
+async function loadmuseen(museen) {
+    const clusterGruppemuseen = L.markerClusterGroup();
+    const responsemuseen = await fetch(museen);
+    const museenData = await responsemuseen.json();
+    const geoJson = L.geoJson(museenData, {
+        pointToLayer: makemuseen
     });
 
     //Clustergruppe
-    clusterGruppewifi.addLayer(geoJson);
-    karte.addLayer(clusterGruppewifi);
-    layerControl.addOverlay(clusterGruppewifi, "WLAN-Standorte");
+    clusterGruppemuseen.addLayer(geoJson);
+    karte.addLayer(clusterGruppemuseen);
+    layerControl.addOverlay(clusterGruppemuseen, "Museen und Sammlungen");
 }
 
 //Suchfeld Wifi
@@ -200,6 +202,6 @@ async function loadWifi(wifi) {
     // karte.addControl(suchFeldwifi);
 
 
-loadWifi(wifi);
-*/
+loadmuseen(museen);
+
 
