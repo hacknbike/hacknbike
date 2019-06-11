@@ -52,15 +52,15 @@ const kartenLayer = {
 const layerControl = L.control.layers({
     "Geoland Basemap": kartenLayer.geolandbasemap,
     "Geoland Basemap Grau": kartenLayer.bmapgrau,
-    "Geoland Basemap Overlay": kartenLayer.bmapoverlay,
+    //"Geoland Basemap Overlay": kartenLayer.bmapoverlay,
     "Geoland Basemap High DPI": kartenLayer.bmaphidpi,
     "Geoland Basemap Orthofoto": kartenLayer.bmaporthofoto30cm,
     "Geoland Basemap Gelände": kartenLayer.bmapgelaende,
-    "Geoland Basemap Oberfläche": kartenLayer.bmapoberflaeche,
+    //"Geoland Basemap Oberfläche": kartenLayer.bmapoberflaeche,
     "OpenStreetMap": kartenLayer.osm,
-    "Stamen Toner": kartenLayer.stamen_toner,
+    //"Stamen Toner": kartenLayer.stamen_toner,
     "Stamen Terrain": kartenLayer.stamen_terrain,
-    "Stamen Watercolor": kartenLayer.stamen_watercolor
+    //"Stamen Watercolor": kartenLayer.stamen_watercolor
 }).addTo(karte);
 
 kartenLayer.bmapgrau.addTo(karte);
@@ -70,29 +70,34 @@ karte.addControl(new L.Control.Fullscreen());
 karte.setView([48.208333, 16.373056], 12);
 
 // die Implementierung der Karte startet hier
-
-const url = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SPAZIERPUNKTOGD &srsName=EPSG:4326&outputFormat=json';
+//Adventmaerkte hinzugefügt
+const adv = ' https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:ADVENTMARKTOGD&srsName=EPSG:4326&outputFormat=json';
 
 function makeMarker(feature, latlng) {
-    const fotoIcon = L.icon({
-        iconUrl: 'http://www.data.wien.gv.at/icons/sehenswuerdigogd.svg', //anderer Marker
+    const advIcon = L.icon({
+        iconUrl: 'http://www.data.wien.gv.at/icons/adventmarktogd.png', //anderer Marker
         iconSize: [16, 16]
     });
-    const sightMarker = L.marker(latlng, {
-        icon: fotoIcon
+    const advMarker = L.marker(latlng, {
+        icon: advIcon
     });
-    sightMarker.bindPopup(`
-        <h3>${feature.properties.NAME}</h3>
-        <p>${feature.properties.BEMERKUNG}</p>
+    advMarker.bindPopup(`
+        <h3>${feature.properties.BEZEICHNUNG}</h3>
+        <p>Adresse:</p>
+        <p>${feature.properties.ADRESSE}</p>
+        <p>Geöffnet von-bis:</p>
+        <p>${feature.properties.DATUM}</p>
+        <p>Öffnungszeiten:</p>
+        <p>${feature.properties.OEFFNUNGSZEIT}</p>
         <hr>
-        <footer><a target="blank" href="${feature.properties.WEITERE_INF}">Weblink</a></footer>
+        <footer><a target="blank" href="${feature.properties.WEBLINK1}">Weblink</a></footer>
         `); //Name, Beschreibung, Weblink (neuer Tab)
-    return sightMarker;
+    return advMarker;
 }
 
-async function loadSights(url) {
+async function loadSights(adv) {
     const clusterGruppe = L.markerClusterGroup();
-    const response = await fetch(url);
+    const response = await fetch(adv);
     const sightsData = await response.json();
     const geoJson = L.geoJson(sightsData, {
         pointToLayer: makeMarker
@@ -101,7 +106,7 @@ async function loadSights(url) {
     //Clustergruppe
     clusterGruppe.addLayer(geoJson);
     karte.addLayer(clusterGruppe);
-    layerControl.addOverlay(clusterGruppe, "Sehenswürdigkeit");
+    layerControl.addOverlay(clusterGruppe, "Weihnachtsmärkte und Silvesterstände");
 
     //Suchfeld einfügen
     const suchFeld = new L.Control.Search({
@@ -113,7 +118,7 @@ async function loadSights(url) {
     karte.addControl(suchFeld);
 }
 
-loadSights(url);
+loadSights(adv);
 
 //Maßstab einfügen
 const scale = L.control.scale({
@@ -153,7 +158,7 @@ loadWege(wege);
 
 
 //WLAN Standorte einfügen
-
+/*
 const wifi = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:WLANWIENATOGD&srsName=EPSG:4326&outputFormat=json';
 
 function makeWifi(feature, latlng) {
@@ -196,5 +201,5 @@ async function loadWifi(wifi) {
 
 
 loadWifi(wifi);
-
+*/
 
