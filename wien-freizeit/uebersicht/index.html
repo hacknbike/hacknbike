@@ -1,44 +1,137 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Wien OpenData Beispiele</title>
-
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Wien</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
-
-    <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
-    <link href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" rel="stylesheet" />
-
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"/>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>
-
-    <script src="plugins/leaflet-search.min.js"></script>
-    <link rel="stylesheet" href="plugins/leaflet-search.min.css"/>
-
-    <link rel="stylesheet" href="main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.4.0/gpx.min.js"></script>
+    <!-- D3.js -->
+    <script src="https://unpkg.com/d3@4.13.0/build/d3.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@raruto/leaflet-elevation@latest/leaflet-elevation.css" />
+    <script src="https://unpkg.com/@raruto/leaflet-elevation@latest/leaflet-elevation.js"></script>
     <script defer src="main.js"></script>
 </head>
 
+
+
 <body>
     <header>
-        <span>Open Data Beispiele</span>
-        <a href="https://digitales.wien.gv.at/site/open-data/"><img src="icons/wien_logo.png" alt="StaDt Wien" /></a>
+        <h3>Wien</h3>
+        <h4>Freizeitkaktivitäten im Sommer wie im Winter</h4>
     </header>
-    <main>
-        <h2>Open Government Data (OGD) in Wien</h2>
-        <p>Die Stadt Wien stellt Zahlen und Daten der Verwaltung öffentlich zur Verfügung. Mehrere hundert Datensätze geben detaillierte Auskunft über Einbahnen, Echtzeitinformationen der Wiener Linien, historische Luftbildbildaufnahmen, Messdaten von Luftschadstoffen oder WLAN Standorte, um nur einige wenige Bereiche zu nennen. Mit diesen verifizierten Daten können Privatpersonen oder Unternehmen Apps programmieren, die das Leben einfacher machen.</p>
 
-        <h3>Grundkarte</h3>
-        <div id="map"></div>
+
+
+    <!-- TODO: ein div-Element mit der Klasse "author" -->
+    <div class="author">
+        <address>
+
+            <a href="mailto:veit.badde@student.uibk.ac.at">Veit Badde</a><br>
+            <a href="mailto:nadine.pook@student.uibk.ac.at">Nadine Pook</a><br>
+            <a href="mailto:andreas.summer@student.uibk.ac.at">Andreas Summer</a><br>
+            <!-- Links zu den Email Adressen und zum Repo --> <code><a
+                    href="https://hacknbike.github.io/wien-freizeit/index.html">Link zum github repository</a></code>
+        </address>
+    </div>
+    <hr />
+
+    <main>
+        <!-- TODO: eine Überschrift 1 mit dem Titel der Etappe und einem kurzen "Teaser" -->
+        <h1>Die lebenswerteste Stadt der Welt<br>Ein ganzjähriges Freizeitparadies</h1> <br>
+        <!-- TODO: ein Absatz mit einem Einführungstext zur Etappe aus der Wikipedia plus einem Link auf die Wikipedia-Seite in der Form "(Quelle: Wikipedia)", das Wort "Wikipedia" als Link -->
+        <p class="blocksatz">Was Millionen Wien-Besucher begeistert, bestätigt mittlerweile zum zehnten Mal in Folge die
+            internationale Vergleichsstudie von Mercer: Wien ist und bleibt top.<br><br><em>Quelle: wien.info</em></p>
+        <a href="https://www.wien.info/de/lifestyle-szene/lebenswerteste-stadt">wien.info</a>
+        <!-- Überschrift zu Wien im Sommer-->
+        <h2>Wien im Sommer</h2>
+        <!-- Abbildung Wien im Sommer im JPG-Format und kursiver Bildüberschrift Name:wiensommer.jpg, Bild von pixabay.com. -->
+        <figure>
+            <figcaption><em><i class="fas fa-camera"></i> Foto: Wien im Sommer</em></figcaption>
+            <img src="images/wiensommer.jpg" alt="wiensommer">
+
+
+        </figure>
+        <!-- TODO: ein Absatz mit der Beschreibung der Sehenswürdigkeit aus der Wikipedia plus einem Link auf die Wikipedia-Seite in der Form "(Quelle: Wikipedia)", das Wort "Wikipedia" als Link -->
+
+        <p class="blocksatz">Hier wird der Sommer in Wien noch ein wenig sommerlicher: Theater, Kino und Musik genießen
+            oder einfach mal in der Sonne entspannen zwischen Grün, Sand und Wasser, bei erfrischenden Drinks im Glas
+            und Köstlichkeiten auf dem Teller. Wien bietet ein abwechslungsreiches Programm im Sommer
+            <br><br><br>Quelle: stadt-wien.at<br><br>
+            <em>Zusätzlich bieten wir euch eine Übersichtskarte mit folgenden Freizeitaktiviäten: <br> Bäder <br>
+                Themenradwege <br> Wanderwege <br> Burgen und Schlösser
+            </em><br><br>
+
+            <nav>
+                <a class="sommer" href="https://hacknbike.github.io/wien-freizeit/sommer/index.html"><i
+                        class="fas fa-sun"></i> Sommer </a></nav> <br>
+
+            <a href="https://www.stadt-wien.at/freizeit/sommer-in-wien.html">stadt-wien.at</a>
+
+
+            <h2>Wien im Winter</h2>
+            <!-- Abbildung Wien im Winter im JPG-Format und kursiver Bildüberschrift Name:wienwinter.jpg, Bild von pixabay.com. -->
+            <figure>
+                <figcaption><em><i class="fas fa-camera"></i> Foto: Wien im Winter</em></figcaption>
+                <img src="images/wienwinter.jpg" alt="wienwinter">
+
+                Kurze Tage, lange Nächte – in der kalten Jahreszeit schwindet bei vielen Menschen die Unternehmenslust
+                und man würde sich bei den kalten Temperaturen am liebsten den ganzen Tag in den eigenen vier Wänden
+                verkriechen. Auf Dauer wird dies jedoch langweilig und man möchte etwas unternehmen. Die besten Tipps
+                für Aktivitäten in der kalten Jahreszeit sind hier zu finden. So werden auch die Wintertage
+                unvergesslich. <br><br>
+
+                <em>Zusätzlich bieten wir euch eine Übersichtskarte mit folgenden Freizeitaktivitäten:<br>
+                    Weihnachtsmärkte <br> Silvesterpfad <br> Museen und Sammlungen</em><em><br><br>Quelle:
+                    vienna-trips.at</em>
+        </p>
+
+        <nav><a class="winter" href="https://hacknbike.github.io/wien-freizeit/winter/index.html">Winter <i class="far fa-snowflake
+            "></i></a>
+        </nav> <br>
+
+        <a href="https://www.vienna-trips.at/winter-in-wien/">vienna-trips.at</a>
+
+
+
+        <h3>Links</h3>
+
+        <ul>
+            <li><a
+                    href="https://www.tirol.at/reisefuehrer/sport/wandern/adlerweg?gclid=EAIaIQobChMIje6oytGi4QIVz-R3Ch00qQOgEAAYASAAEgLbtPD_BwE">www.tirol.at</a>
+            </li>
+            <li><a href="https://www.fernwege.de/a/adlerweg/005/index.html">www.fernwege.de</a></li>
+            <li><a
+                    href="https://www.bergfex.at/sommer/tirol/touren/wanderung/60435,adlerweg-etappe-5-neu--buchacker-ueber-nachberg-ascherjoch-plessenberg-kienberg-nach-pinegg/">www.bergfex.at</a>
+            </li>
+        </ul>
+
     </main>
 
+    <hr />
+
+    <footer>
+        <!-- links zu Sommer- und Winterkarte mit Icons -->
+        <nav>
+            <a class="sommer" href="https://hacknbike.github.io/wien-freizeit/sommer/index.html"><i
+                    class="fas fa-sun"></i>
+
+                Sommer </a> <br>
+            <a class="winter" href="https://hacknbike.github.io/wien-freizeit/winter/index.html">Winter <i class="far fa-snowflake
+                    "></i></a>
+        </nav>
+    </footer>
+
 </body>
+
+
 
 </html>

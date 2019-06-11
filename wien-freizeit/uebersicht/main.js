@@ -1,9 +1,28 @@
-/* Wien OGD Beispiele */
+//alert("Hallo Welt!");
+
+const div = document.getElementById("map");
+const breite1 = div.getAttribute("data-lat1");
+const laenge1 = div.getAttribute("data-lng1");
+const titel1 = div.getAttribute("data-title1");
+const breite2 = div.getAttribute("data-lat2");
+const laenge2 = div.getAttribute("data-lng2");
+const titel2 = div.getAttribute("data-title2");
+
+//console.log("Breite=",breite,"Länge=",laenge,"Titel=",titel);
+
+//Karte initialisieren
 
 let karte = L.map("map");
+//console.log(karte);
+
+//auf Ausschnitt zoomen
+karte.setView(
+    [47.2, 11.2],
+    8
+);
 
 const kartenLayer = {
-    osm: L.tileLayer("https://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+    osm: L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
         subdomains: ["a", "b", "c"],
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
     }),
@@ -27,6 +46,7 @@ const kartenLayer = {
         subdomains: ["maps", "maps1", "maps2", "maps3", "maps4"],
         attribution: 'Datenquelle: <a href="https://www.basemap.at">basemap.at</a>'
     }),
+
     bmapgelaende: L.tileLayer("https://{s}.wien.gv.at/basemap/bmapgelaende/grau/google3857/{z}/{y}/{x}.jpeg", {
         subdomains: ["maps", "maps1", "maps2", "maps3", "maps4"],
         attribution: 'Datenquelle: <a href="https://www.basemap.at">basemap.at</a>'
@@ -35,166 +55,219 @@ const kartenLayer = {
         subdomains: ["maps", "maps1", "maps2", "maps3", "maps4"],
         attribution: 'Datenquelle: <a href="https://www.basemap.at">basemap.at</a>'
     }),
-    stamen_toner: L.tileLayer("https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png", {
+    stamen_toner: L.tileLayer(" https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png", {
         subdomains: ["a", "b", "c"],
-        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design </a>',
     }),
-    stamen_terrain: L.tileLayer("https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg", {
+    stamen_terrain: L.tileLayer(" https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg", {
         subdomains: ["a", "b", "c"],
-        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design </a>,'
     }),
-    stamen_watercolor: L.tileLayer("https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg", {
+    stamen_watercolor: L.tileLayer(" https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg", {
         subdomains: ["a", "b", "c"],
-        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design </a>,'
     })
+
 };
 
-const layerControl = L.control.layers({
-    "Geoland Basemap": kartenLayer.geolandbasemap,
-    "Geoland Basemap Grau": kartenLayer.bmapgrau,
-    "Geoland Basemap Overlay": kartenLayer.bmapoverlay,
-    "Geoland Basemap High DPI": kartenLayer.bmaphidpi,
-    "Geoland Basemap Orthofoto": kartenLayer.bmaporthofoto30cm,
-    "Geoland Basemap Gelände": kartenLayer.bmapgelaende,
-    "Geoland Basemap Oberfläche": kartenLayer.bmapoberflaeche,
-    "OpenStreetMap": kartenLayer.osm,
-    "Stamen Toner": kartenLayer.stamen_toner,
-    "Stamen Terrain": kartenLayer.stamen_terrain,
-    "Stamen Watercolor": kartenLayer.stamen_watercolor
-}).addTo(karte);
+//openstreetmap einbauen
 
-kartenLayer.bmapgrau.addTo(karte);
+//kartenLayer.osm.addTo(karte);
+//kartenLayer.geolandbasemap.addTo(karte);
+//kartenLayer.bmapoverlay.addTo(karte);
+//kartenLayer.bmapgrau.addTo(karte);
+//kartenLayer.bmaphidpi.addTo(karte);
+//kartenLayer.bmaporthofoto30cm.addTo(karte);
+//kartenLayer.bmapgelaende.addTo(karte);
+//kartenLayer.bmapoberflaeche.addTo(karte);
+//kartenLayer.stamen_toner.addTo(karte);
+kartenLayer.stamen_terrain.addTo(karte);
+//kartenLayer.stamen_watercolo.addTo(karte);
+
 
 karte.addControl(new L.Control.Fullscreen());
+var hash = new L.Hash(karte);
+var coords = new L.Control.Coordinates();
+coords.addTo(karte);
+coords.addTo(karte);
 
-karte.setView([48.208333, 16.373056], 12);
+karte.on('click', function (e) {
+    coords.setCoordinates(e);
+});
 
-// die Implementierung der Karte startet hier
 
-const url = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SPAZIERPUNKTOGD &srsName=EPSG:4326&outputFormat=json';
 
-function makeMarker(feature, latlng) {
-    const fotoIcon = L.icon({
-        iconUrl: 'http://www.data.wien.gv.at/icons/sehenswuerdigogd.svg', //anderer Marker
-        iconSize: [16, 16]
-    });
-    const sightMarker = L.marker(latlng, {
-        icon: fotoIcon
-    });
-    sightMarker.bindPopup(`
-        <h3>${feature.properties.NAME}</h3>
-        <p>${feature.properties.BEMERKUNG}</p>
-        <hr>
-        <footer><a target="blank" href="${feature.properties.WEITERE_INF}">Weblink</a></footer>
-        `); //Name, Beschreibung, Weblink (neuer Tab)
-    return sightMarker;
+/*L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+    subdomains: ["a", "b", "c"],
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+}).addTo(karte);
+
+L.tileLayer("https://{s}.wien.gv.at/basemap/geolandbasemap/normal/google3857/{z}/{y}/{x}.png", {
+    subdomains: ["maps1", "maps2", "maps3", "maps4"],
+    attribution: 'Datenquelle: <a href="https://www.basemap.at">basemap.at</a>'
+}).addTo(karte);*/
+
+let pin1 = L.marker(
+    [breite1, laenge1]
+).addTo(karte);
+
+let pin2 = L.marker(
+    [breite2, laenge2]
+).addTo(karte);
+
+//popup zum pin hängen
+pin1.bindPopup(titel1).openPopup();
+pin2.bindPopup(titel2).openPopup();
+
+/*const blick1 ={ 
+    kunde: "Wilder Kaiser", 
+    standort: "Gruttenhütte", 
+    seehoehe: "1640", 
+    lat: "47.55564", 
+    lng: "12.30444" /*
+
+};
+
+/*let pin3 = L.marker(
+    [blick1.lat, blick1.lng]
+).addTo(karte);
+pin3.bindPopup(
+    `<h1>Standort ${blick1.kunde}</h1>
+    <p>Höhe: ${blick1.seehoehe} m</p>
+    <em>Kunde: ${blick1.kunde}</em>`
+    );*/
+
+
+/* const blick2 ={ 
+     kunde: "Bergbahn Scheffau", 
+     standort: "Brandstadl", 
+     seehoehe: "1640", 
+     lat: "47.4912", 
+     lng: "12.248" 
+ 
+ };*/
+
+/*let pin4 = L.marker(
+    [blick2.lat, blick2.lng]
+).addTo(karte);
+pin3.bindPopup(
+    `<h1>Standort ${blick2.kunde}</h1>
+    <p>Höhe: ${blick2.seehoehe} m</p>
+    <em>Kunde: ${blick2.kunde}</em>`
+    );*/
+
+
+/*const blick3 ={ 
+    kunde: "Lechtal Tourismus", 
+    standort: "Sonnalm Jöchelspitze", 
+    seehoehe: "1784", 
+    lat: "47.27528", 
+    lng: "10.36505"
+/*const blick3 ={ 
+            kunde: "Lechtal Tourismus", 
+            standort: "Sonnalm Jöchelspitze", 
+            seehoehe: "1784", 
+            lat: "47.27528", 
+            lng: "10.36505"
+        
+        };
+};*/
+
+/*let pin5 = L.marker(
+    [blick3.lat, blick3.lng]
+).addTo(karte);
+pin3.bindPopup(
+    `<h1>Standort ${blick3.kunde}</h1>
+    <p>Höhe: ${blick3.seehoehe} m</p>
+    <em>Kunde: ${blick3.kunde}</em>`
+    ); */
+
+//vereinfacht
+let blickeGruppe = L.featureGroup().addTo(karte);
+
+for (let blick of ADLERBLICKE) {
+    let blickpin = L.marker(
+        [blick.lat, blick.lng]
+    ).addTo(blickeGruppe);
+    blickpin.bindPopup(
+        `<h1>Standort ${blick.kunde}</h1>
+            <p>Höhe: ${blick.seehoehe} m</p>
+            <em>Kunde: ${blick.kunde}</em>`
+
+    )
 }
 
-async function loadSights(url) {
-    const clusterGruppe = L.markerClusterGroup();
-    const response = await fetch(url);
-    const sightsData = await response.json();
-    const geoJson = L.geoJson(sightsData, {
-        pointToLayer: makeMarker
+console.log(blickeGruppe.getBounds());
+karte.fitBounds(blickeGruppe.getBounds());
+
+//gpx track laden & marker laden
+new L.GPX("AdlerWegEtappe05.gpx", {
+    async: true,
+    marker_options: {
+        startIconUrl: 'images/pin-icon-start.png',
+        endIconUrl: 'images/pin-icon-end.png',
+        shadowUrl: 'images/pin-shadow.png'
+    }
+
+
+}).on('loaded', function (e) {
+    karte.fitBounds(e.target.getBounds());
+//const statsDiv = document.getElementById("stats");
+//const minHeight = e.target.get_elevation_min();
+//const maxHeight = e.target.get_elevation_max();
+//const verticalMeters = e.target.get_elevation_gain();
+const minSpan = document.getElementById('min');
+const maxSpan = document.getElementById('max');
+const diffSpan = document.getElementById('diff');
+minSpan.innerHTML = e.target.get_elevation_min();
+maxSpan.innerHTML = e.target.get_elevation_max();
+diffSpan.innerHTML = e.target.get_elevation_gain();
+//statsDiv.innerHTML = `Routen Statistik: niedrigster Punkt: ${minHeight} m
+//höchster Punkt: ${maxHeight} m, Höhenunterschied: ${verticalMeters} m`;
+}).on('addline', function (e) {
+    console.log('line geladen')
+    const controlElevation = L.control.elevation({
+        position: "bottomright",
+        collapsed: true,
+        detachedView: false,
+
+        // detachedView: true,
+        // elevationDiv: "#elevation-div",
     });
+    controlElevation.addTo(karte);
+    controlElevation.addData(e.line);
+    const gpxLinie = e.line.getLatLngs();
+    console.log(gpxLinie);
+    for (let i = 1; i < gpxLinie.length; i += 1) {
+        // console.log(gpxLinie[i]);
+        let p1 = gpxLinie[i - 1];
+        let p2 = gpxLinie[i];
+        let dist = karte.distance(
+            [p1.lat, p1.lng],
+            [p2.lat, p2.lng]
+        );
 
-    //Clustergruppe
-    clusterGruppe.addLayer(geoJson);
-    karte.addLayer(clusterGruppe);
-    layerControl.addOverlay(clusterGruppe, "Sehenswürdigkeit");
+        let delta = (p2.meta.ele - p1.meta.ele);
+        let proz = (dist != 0 ? delta / dist * 100.0 : 0).toFixed(1); //toFiex = Runden auf eine Nachkommastelle
+        console.log('Distanz: ', dist, 'Höhendiff:', delta, 'Steigung', proz);
+        let farbe =
+            proz >= 10 ? "#feebe2" :
+            proz >= 6 ? "#fcc5c0" :
+            proz >= 2 ? "#fa9fb5" :
+            proz >= 0 ? "#f768a1" :
+            proz >= -6 ? "#dd3497" :
+            proz >= -10 ? "#ae017e" :
+            "#7a0177";
 
-    //Suchfeld einfügen
-    const suchFeld = new L.Control.Search({
-        layer: clusterGruppe,
-        propertyName: "NAME",
-        zoom: 17,
-        initial: false,
-    });
-    karte.addControl(suchFeld);
-}
-
-loadSights(url);
-
-//Maßstab einfügen
-const scale = L.control.scale({
-    imperial: false,
-    metric: true
+        //['#feebe2','#fcc5c0','#fa9fb5','#f768a1','#dd3497','#ae017e','#7a0177']
+        L.polyline(
+            [
+                [p1.lat, p1.lng],
+                [p2.lat, p2.lng],
+            ], {
+                color: farbe,
+            }
+        ).addTo(karte);
+    }
 
 });
-karte.addControl(scale);
-
-
-//Spazierwege hinzufügen
-const wege = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:WANDERWEGEOGD&srsName=EPSG:4326&outputFormat=json';
-
-function linienPopup(feature, layer) { //Wege Popup (nur Name möglich)
-    const popup = `
-        <h3>${feature.properties.NAME}</h3>
-        `;
-    layer.bindPopup(popup);
-}
-
-async function loadWege(wegeURL) {
-    const antwort = await fetch(wegeURL);
-    const wegeData = await antwort.json();
-    const wegeJson = L.geoJson(wegeData, {
-        style: function () { //Farbe der Wege
-            return {
-                color: "yellow"
-            };
-        },
-        onEachFeature: linienPopup
-    });
-
-    karte.addLayer(wegeJson);
-    layerControl.addOverlay(wegeJson, "Spazierwege");
-}
-loadWege(wege);
-
-
-//WLAN Standorte einfügen
-
-const wifi = 'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:WLANWIENATOGD&srsName=EPSG:4326&outputFormat=json';
-
-function makeWifi(feature, latlng) {
-    const wifiIcon = L.icon({
-        iconUrl: 'http://www.data.wien.gv.at/icons/wlanwienatogd.svg', //anderer Marker
-        iconSize: [16, 16]
-    });
-    const wifiMarker = L.marker(latlng, {
-        icon: wifiIcon
-    });
-    wifiMarker.bindPopup(`
-        <h3>${feature.properties.NAME}</h3>
-        <p>${feature.properties.ADRESSE}</p>        
-        `); //Name, Beschreibung, ohne Weblink (neuer Tab)
-    return wifiMarker;
-}
-
-async function loadWifi(wifi) {
-    const clusterGruppewifi = L.markerClusterGroup();
-    const responsewifi = await fetch(wifi);
-    const wifiData = await responsewifi.json();
-    const geoJson = L.geoJson(wifiData, {
-        pointToLayer: makeWifi
-    });
-
-    //Clustergruppe
-    clusterGruppewifi.addLayer(geoJson);
-    karte.addLayer(clusterGruppewifi);
-    layerControl.addOverlay(clusterGruppewifi, "WLAN-Standorte");
-}
-
-//Suchfeld Wifi
-    // const suchFeldwifi = new L.Control.Search({
-    //     layer: clusterGruppewifi,
-    //     propertyName: "NAME",
-    //     zoom: 17,
-    //     initial: false,
-    // });
-    // karte.addControl(suchFeldwifi);
-
-
-loadWifi(wifi);
-
-
