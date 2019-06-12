@@ -193,7 +193,7 @@ async function loadmuseen(museen) {
     layerControl.addOverlay(clusterGruppemuseen, "Museen und Sammlungen");
 
     //Suchfeld einfügen
-    function newsearch () {
+    function suchfunction() {
     if (karte.hasLayer(clusterGruppemuseen)) {
         const suchFeldmuseen = new L.Control.Search({
             layer: clusterGruppemuseen,
@@ -202,16 +202,18 @@ async function loadmuseen(museen) {
             initial: false,
         });karte.addControl(suchFeldmuseen);
     } else {};
-}
+    karte.on('click', suchfunction);
+};
+
+};
 //If Abfrage functioniert - Ladet aber am Anfang
 // -->
 //on click
 //??on change (overlay) ??? function
 //refresh on Overlay change
 
-};
 
-onclick (reload.fubction.newsearch); //haha nice try
+//onclick (reload.fubction.newsearch); //haha nice try
 
 //console.log(L.control.layers.)
 //Suchfeld Wifi
