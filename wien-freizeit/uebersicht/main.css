@@ -1,26 +1,29 @@
 body {
     max-width: 1280px;
-    margin: auto;
-    font-family: "Open Sans";
+    margin: auto; /* Ränder passen sich automatisch auf das Format des Bildschirms an */
+    font-family: "Playfair Display"; /* Ausgewählte Schriftart aus der freien Quelle fonts.googleapis.com */
+    color: midnightblue; /* Schriftfarbe */
+    background-color: lightsteelblue; /* Hintergrundfarbe */
 }
 
+
 header {
-    text-align: center;
-    background-image: url("images/vienna2.jpg");
-    background-position: 0 50%;
-    font-size: 3em;
+    text-align: center; /* Text in der Überschrift ist mittig gesetzt */
+    background-image: url("images/vienna2.jpg"); /* Hintergrundbild der Überschrift aus dem Ordner Images */
+    background-position: 0 50%; /*Position des Bildes auf Überschrift angepasst */
+    font-size: 3em; /*Schriftgröße */
 }
 
 
 header h3 {
     font-size: 2em;
     margin: 0;
-    color: black;
+    color: midnightblue;
 }
 
 header h4 {
     font-size: 0.75em;
-    color: black;
+    color: white;
 }
 
 .author {
@@ -29,7 +32,7 @@ header h4 {
 
 
 address a {
-    color: gray;
+    color:darkslateblue;
 }
 
 main {
@@ -45,7 +48,7 @@ main figcaption {
     float: left;
     margin-left: -12em;
     width: 11.5em;
-    color: grey;
+    color: darkslateblue;
     font-size: 1em;
 }
 
