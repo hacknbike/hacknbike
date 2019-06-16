@@ -7,7 +7,8 @@ body {
 header {
     color: #fff;
     background-color: #e2001a;
-    height: 50px;
+    height: 57px;
+    
 }
 header span {
     display: inline-block;
@@ -19,7 +20,11 @@ header span {
 main h2 {
     color: #e2001a;
 }
-
+main h3 {
+    font-weight: bold;
+    font-size: 25px;
+    text-shadow: 0.5px 0.5px black;
+}
 #map {
     width: 100%;
     height: 70vh;

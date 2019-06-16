@@ -63,7 +63,7 @@ const layerControl = L.control.layers({
     //"Stamen Watercolor": kartenLayer.stamen_watercolor
 }).addTo(karte);
 
-kartenLayer.bmapgrau.addTo(karte);
+kartenLayer.geolandbasemap.addTo(karte);
 
 karte.addControl(new L.Control.Fullscreen());
 
