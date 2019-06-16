@@ -1,17 +1,18 @@
 body {
-    max-width: 1280px;
+    max-width: 1180px;
     margin: auto;
     font-family: 'Open Sans', sans-serif;
 }
 
 header {
     color: #fff;
-    background-color: #e2001a;
+    background-color: #c7c6c6;
     height: 58px;
     font-family: 'Open Sans', sans-serif;
     align-items: center;
     display: flex;
     justify-content: space-between;
+    box-shadow: 4px 4px 20px gray;
     
 }
 header span {
@@ -31,12 +32,19 @@ main h3 {
     font-size: 25px;
     text-shadow: 0.5px 0.5px black;
     font-family: 'Open Sans', sans-serif;
+    padding: 0.5em;
 }
 #map {
     width: 100%;
     height: 70vh;
-    border: 1px solid gray;
+    
     font-family: 'Open Sans', sans-serif;
+    box-shadow: 4px 4px 20px gray;
 }
-
+button {
+    border: gray;
+    border-radius: 6px;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+}
 
