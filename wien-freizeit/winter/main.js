@@ -285,5 +285,5 @@ function onMapClick(e) {
 karte.on('click', onMapClick);
 
 function Tipp() {
-    alert("Bei einem Klick in die Karte wird Ihnen die Uhrzeit des heutigen Sonnenuntergangs am jeweiligen Ort angezeitg.");
+    alert("Bei einem Klick in die Karte wird Ihnen die Uhrzeit des heutigen Sonnenuntergangs am jeweiligen Ort angezeigt.");
   }
