@@ -296,3 +296,17 @@ loadRouten(routen);
 // loadWifi(wifi);
 
 
+var popup = L.popup();
+
+function onMapClick(e) {
+    popup
+        .setLatLng(e.latlng)
+        //.setContent("You clicked the map at " + e.latlng.toString())  //this.getLatLng() don't work
+        .setContent("Sonnenuntergang um: " + L.sun.sunset(e.latlng)) //this.getLatLng() don't work
+        .openOn(karte);
+}
+karte.on('click', onMapClick);
+
+function Tipp() {
+    alert("Bei einem Klick in die Karte wird Ihnen die Uhrzeit des heutigen Sonnenuntergangs am jeweiligen Ort angezeitg.");
+  }

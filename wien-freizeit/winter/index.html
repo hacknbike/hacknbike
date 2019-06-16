@@ -13,14 +13,17 @@
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
 
     <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
-    <link href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" rel="stylesheet" />
+    <link href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css"
+        rel="stylesheet" />
 
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"/>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
 
     <script src="plugins/leaflet-search.min.js"></script>
-    <link rel="stylesheet" href="plugins/leaflet-search.min.css"/>
+    <link rel="stylesheet" href="plugins/leaflet-search.min.css" />
+
+    <script src="plugins\L.Sun.js"></script>
 
     <link rel="stylesheet" href="main.css">
     <script defer src="main.js"></script>
@@ -28,17 +31,24 @@
 
 <body>
     <header>
-        <span>Winter in Wien</span>
+        <span>Aktiv in Wien</span>
         <a href="https://digitales.wien.gv.at/site/open-data/"><img src="icons/wien_logo.png" alt="StaDt Wien" /></a>
     </header>
     <main>
-        <h2>Winteraktivitäten in Wien </h2>
-       
-        <h3>Grundkarte</h3>
+        <h3>Winterkarte</h3>   <button onclick="Tipp()" style="float: right;">Tipp!</button>
+ 
         <div id="map"></div>
+
+        <h2>Winteraktivitäten in der österreichischen Hauptstadt</h2>
+        <p>In Wien lassen sich unzählige Aktivitäten ausüben, egal ob im Sommer oder im Winter. Diese Karte soll dich
+            dabei unterstützen einen kleinen Überblick über mögliche Winteraktivitäten zu erhalten. Hierfür haben wir
+            dir eine Auswahl von Weihnachtsmärkte und Silvesterstände, Museen, Sammlungen, Sehenswürdigkeiten sowie einen Silvesterpfad zusammengestellt. In der Auswahl auf der rechten Seite kannst du
+            deine spezielle Kategorie der Aktivitäten auswählen und wenn du ein bestimmtes Museeum suchst,
+            findest du dies im Suchfeld auf der linken Seite der Karte. Mit einem Klick auf das Icon in der Karte erscheint ein Popup mit weiteren Informationen zur jeweiligen Aktivität. Wir hoffen du hast Spaß beim erkunden Wiens und
+            unsere Karte steht dir dabei hilfreich zur Seite :)</p>
+
+
     </main>
-    <h3>Open Government Data (OGD) in Wien</h3>
-    <p>Die Stadt Wien stellt Zahlen und Daten der Verwaltung öffentlich zur Verfügung. Mehrere hundert Datensätze geben detaillierte Auskunft über Einbahnen, Echtzeitinformationen der Wiener Linien, historische Luftbildbildaufnahmen, Messdaten von Luftschadstoffen oder WLAN Standorte, um nur einige wenige Bereiche zu nennen. Mit diesen verifizierten Daten können Privatpersonen oder Unternehmen Apps programmieren, die das Leben einfacher machen.</p>
 
 </body>
 

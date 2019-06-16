@@ -92,30 +92,30 @@ function makeMarker(feature, latlng) {
     return advMarker;
 }
 
-async function loadSights(adv) {
-    const clusterGruppe = L.markerClusterGroup();
+async function loadadv(adv) {
+    const clusterGruppeadv = L.markerClusterGroup();
     const response = await fetch(adv);
-    const sightsData = await response.json();
-    const geoJson = L.geoJson(sightsData, {
+    const AdvData = await response.json();
+    const geoJson = L.geoJson(AdvData, {
         pointToLayer: makeMarker
     });
 
     //Clustergruppe
-    clusterGruppe.addLayer(geoJson);
-    karte.addLayer(clusterGruppe);
-    layerControl.addOverlay(clusterGruppe, "Weihnachtsmärkte und Silvesterstände");
+    clusterGruppeadv.addLayer(geoJson);
+    karte.addLayer(clusterGruppeadv);
+    layerControl.addOverlay(clusterGruppeadv, "Weihnachtsmärkte und Silvesterstände");
 
     //Suchfeld einfügen
-    const suchFeld = new L.Control.Search({
-        layer: clusterGruppe,
-        propertyName: "NAME",
-        zoom: 17,
-        initial: false,
-    });
-    karte.addControl(suchFeld);
+    /* const suchFeld = new L.Control.Search({
+         layer: clusterGruppe,
+         propertyName: "NAME",
+         zoom: 17,
+         initial: false,
+     });
+     karte.addControl(suchFeld);*/
 }
 
-loadSights(adv);
+loadadv(adv);
 
 //Maßstab einfügen
 const scale = L.control.scale({
@@ -193,17 +193,14 @@ async function loadmuseen(museen) {
     layerControl.addOverlay(clusterGruppemuseen, "Museen und Sammlungen");
 
     //Suchfeld einfügen
-    function suchfunction() {
-    if (karte.hasLayer(clusterGruppemuseen)) {
-        const suchFeldmuseen = new L.Control.Search({
-            layer: clusterGruppemuseen,
-            propertyName: "NAME",
-            zoom: 17,
-            initial: false,
-        });karte.addControl(suchFeldmuseen);
-    } else {};
-    karte.on('click', suchfunction);
-};
+    const suchFeldmuseen = new L.Control.Search({
+        layer: clusterGruppemuseen,
+        propertyName: "NAME",
+        zoom: 17,
+        initial: false,
+    });
+    karte.addControl(suchFeldmuseen);
+
 
 };
 //If Abfrage functioniert - Ladet aber am Anfang
@@ -227,3 +224,66 @@ async function loadmuseen(museen) {
 
 
 loadmuseen(museen);
+
+//Sehenswürdigkeiten Allgemein
+const sights = ' https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json';
+
+function makeSights(feature, latlng) {
+    const sightsIcon = L.icon({
+        iconUrl: 'http://www.data.wien.gv.at/icons/sehenswuerdigogd.svg', //anderer Marker
+        iconSize: [16, 16]
+    });
+    const sightsMarker = L.marker(latlng, {
+        icon: sightsIcon
+    });
+    sightsMarker.bindPopup(`
+        <h3>${feature.properties.NAME}</h3>
+        <p>Adresse: ${feature.properties.ADRESSE}</p>
+        <hr>
+        <footer><a target="blank" href="${feature.properties.WEITERE_INF}">Weblink</a></footer>
+        `); //Name, Beschreibung, Weblink (neuer Tab)
+    return sightsMarker;
+}
+
+async function loadSights(sights) {
+    const clusterGruppeSights = L.markerClusterGroup();
+    const responseSights = await fetch(sights);
+    const sightsData = await responseSights.json();
+    const geoJson = L.geoJson(sightsData, {
+        pointToLayer: makeSights
+    });
+
+    //Clustergruppe
+    clusterGruppeSights.addLayer(geoJson);
+    karte.addLayer(clusterGruppeSights);
+    layerControl.addOverlay(clusterGruppeSights, "Sehenswürdigkeiten");
+
+    //Suchfeld einfügen
+    /* const suchFeld = new L.Control.Search({
+         layer: clusterGruppe,
+         propertyName: "NAME",
+         zoom: 17,
+         initial: false,
+     });
+     karte.addControl(suchFeld);*/
+}
+loadSights(sights);
+
+
+
+
+
+var popup = L.popup();
+
+function onMapClick(e) {
+    popup
+        .setLatLng(e.latlng)
+        //.setContent("You clicked the map at " + e.latlng.toString())  //this.getLatLng() don't work
+        .setContent("Sonnenuntergang um: " + L.sun.sunset(e.latlng)) //this.getLatLng() don't work
+        .openOn(karte);
+}
+karte.on('click', onMapClick);
+
+function Tipp() {
+    alert("Bei einem Klick in die Karte wird Ihnen die Uhrzeit des heutigen Sonnenuntergangs am jeweiligen Ort angezeitg.");
+  }
