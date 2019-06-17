@@ -144,7 +144,7 @@ async function loadWege(wegeURL) {
     const wegeJson = L.geoJson(wegeData, {
         style: function () { //Farbe der Wege
             return {
-                color: "yellow"
+                color: "blue"
             };
         },
         onEachFeature: linienPopup
