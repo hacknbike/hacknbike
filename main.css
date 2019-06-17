@@ -40,7 +40,7 @@ header h4 {
 }
 
 .author {
-    text-align: left;
+    float: left;
     font-family: 'Open Sans', sans-serif;
 
 
