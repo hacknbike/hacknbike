@@ -14,14 +14,15 @@
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
 
     <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
-    <link href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" rel="stylesheet" />
+    <link href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css"
+        rel="stylesheet" />
 
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"/>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
 
     <script src="plugins/leaflet-search.min.js"></script>
-    <link rel="stylesheet" href="plugins/leaflet-search.min.css"/>
+    <link rel="stylesheet" href="plugins/leaflet-search.min.css" />
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -35,16 +36,26 @@
 <body>
     <header>
         <span>Aktiv in Wien</span>
-        <a href="https://digitales.wien.gv.at/site/open-data/"><img src="icons/wien_logo.png" alt="StaDt Wien"  style="border-style: solid; border-width: 4px; border-color:  #b9b8b8; float: right;"/></a>
+        <a href="https://digitales.wien.gv.at/site/open-data/"><img src="icons/wien_logo.png" alt="StaDt Wien"
+                style="border-style: solid; border-width: 4px; border-color:  #b9b8b8; float: right;" /></a>
     </header>
+    <br>
     <main>
         <h3>Sommerkarte</h3> <button onclick="Tipp()" style="float: right;">Tipp!</button>
         <div id="map"></div>
-        
-        <h2>Sommeraktivitäten in der österreichischen Hauptstadt</h2>
-        <p>In Wien lassen sich unzählige Aktivitäten ausüben, egal ob im Sommer oder im Winter. Diese Karte soll dich dabei unterstützen einen kleinen Überblick über mögliche Sommeraktivitäten zu erhalten. Hierfür haben wir dir eine kleine Auswahl von Wanderrouten rund um Wien, Themenradwegen, Badestellen, Schwimmbädern, sowie den weltbekannten Wiener Burgen und Schlössern zusammengestellt. In der Auswahl auf der rechten Seite kannst du deine spezielle Kategorie der Aktivitäten auswählen und wenn du eine bestimmte Burg oder ein Schloss suchst, findest du dies im Suchfeld auf der linken Seite der Karte. Mit einem Click auf das Icon in der Karte erscheint ein Popup mit weiteren Informationen zur jeweiligen Aktivität. Wir hoffen du hast Spaß beim erkunden Wiens und unsere Karte steht dir dabei hilfreich zur Seite :)</p>
 
-        <p>Die Daten und Zahlen dieser Aktivitäten stammen von von der Stadt Wien, dessen Verwaltung diese öffentlich zur Verfügung stellt und verifiziert.</p>
+        <h2>Sommeraktivitäten in der österreichischen Hauptstadt</h2>
+        <p>In Wien lassen sich unzählige Aktivitäten ausüben, egal ob im Sommer oder im Winter. Diese Karte soll dich
+            dabei unterstützen einen kleinen Überblick über mögliche Sommeraktivitäten zu erhalten. Hierfür haben wir
+            dir eine kleine Auswahl von Wanderrouten rund um Wien, Themenradwegen, Badestellen, Schwimmbädern, sowie den
+            weltbekannten Wiener Burgen und Schlössern zusammengestellt. In der Auswahl auf der rechten Seite kannst du
+            deine spezielle Kategorie der Aktivitäten auswählen und wenn du eine bestimmte Burg oder ein Schloss suchst,
+            findest du dies im Suchfeld auf der linken Seite der Karte. Mit einem Click auf das Icon in der Karte
+            erscheint ein Popup mit weiteren Informationen zur jeweiligen Aktivität. Wir hoffen du hast Spaß beim
+            erkunden Wiens und unsere Karte steht dir dabei hilfreich zur Seite :)</p>
+
+        <p>Die Daten und Zahlen dieser Aktivitäten stammen von von der Stadt Wien, dessen Verwaltung diese öffentlich
+            zur Verfügung stellt und verifiziert.</p>
 
 
     </main>
@@ -53,10 +64,10 @@
     <footer>
         <!-- links zur Übersichtsseite und der Winterkarte mit Icons -->
         <nav>
-            <a class="sommer" href="https://hacknbike.github.io/index.html"></i>Home</a> <br>
+            <a class="home" href="https://hacknbike.github.io/index.html"><i class="fas fa-home"></i> Home</a> <br>
 
             <a class="winter" href="https://hacknbike.github.io/wien-freizeit/winter/index.html"> <i class="far fa-snowflake
-                    "></i>Winter</a>
+                    "></i> Winterkarte</a>
         </nav>
     </footer>
 
