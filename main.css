@@ -1,12 +1,12 @@
 body {
-    max-width: 1280px;
+    max-width: 1180px;
     margin: auto;
     /* Ränder passen sich automatisch auf das Format des Bildschirms an */
     font-family: 'Open Sans', sans-serif;
     /* Ausgewählte Schriftart aus der freien Quelle fonts.googleapis.com */
-    color: midnightblue;
+    color: black;
     /* Schriftfarbe */
-    background-color: lightsteelblue;
+    background-color: white;
     /* Hintergrundfarbe */
 }
 
@@ -21,13 +21,15 @@ header {
     font-size: 3em;
     /*Schriftgröße */
     font-family: 'Open Sans', sans-serif;
+    
+    box-shadow: 4px 4px 20px gray;
 }
 
 
 header h3 {
     font-size: 2em;
     margin: 0;
-    color: midnightblue;
+    color: black;
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -44,7 +46,7 @@ header h4 {
 
 
 address a {
-    color: darkslateblue;
+    color: black;
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -63,25 +65,27 @@ main figcaption {
     float: left;
     margin-left: -12em;
     width: 11.5em;
-    color: darkslateblue;
+    color: black;
     font-size: 1em;
     font-family: 'Open Sans', sans-serif;
 }
 
 main figure img {
     width: 90%;
-  
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 4px 4px 20px gray;
 }
 
 
 .sommer {
     float: left;
-  
+ 
 }
 
 .winter {
     float: left;
-  
+ 
 }
 
 footer {
@@ -94,4 +98,7 @@ footer {
         margin-left: 0;
         width: auto;
     }
+}
+.fas fa-camera {
+
 }
